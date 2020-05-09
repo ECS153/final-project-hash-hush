@@ -52,7 +52,7 @@
 ### Read 
 
 ### To Read
-1. (Weir's blog)[https://reusablesec.blogspot.com/]
+1. [Weir's blog](https://reusablesec.blogspot.com/)
 2. [PW complexity VS PW entrophy](https://docs.microsoft.com/en-us/archive/blogs/msftcam/password-complexity-versus-password-entropy)
 3. [How Crypto Hash Works](https://www.metamorphosite.com/one-way-hash-encryption-sha1-data-software)
 
@@ -127,6 +127,6 @@
 2. [CrackStation](https://crackstation.net/)
 3. [Online Hash Crack](https://www.onlinehashcrack.com/)
 
-### [PCFG cracker](https://github.com/lakiw/pcfg_cracker)
+## [PCFG cracker](https://github.com/lakiw/pcfg_cracker)
 
 ## [NN cracker](https://github.com/cupslab/neural_network_cracking)

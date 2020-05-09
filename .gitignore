@@ -1,3 +1,5 @@
+# ignore MAC local cache file
 .DS_Store
+# ignore all pdfs 
 *.pdf
-
+game_of_wits.*
