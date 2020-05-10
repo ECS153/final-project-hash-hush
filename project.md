@@ -4,12 +4,17 @@
 1. generating more effective wordlists (minimize # of guesses)
     - in pw recovery case, users will supply their own info
     - in attacking scenario, we need to break/scan info 
-2. generating more secure and usable pws or in general, more secure auth protocol
-    - randomly selecting word mangling rules to user chosen pws
+2. generating more secure and usable pws or more secure auth protocol in general
+    - randomly selecting word mangling rules to user chosen pws (susceptible to raking attack)
     - how websites add salts 
     - randomly choosing pw choosing rules mandated by the website
 3. generating more effective word mangling rules
     - evaluating existing rules using real pws (how frequent the rules apply)
+4. generate more effective dict/wordlist
+    - the trade-off between the size of the dict and the number of mangling rules to tbe tried on them 
+        - smaller dict and more rules are better at strong pws; large dict, fewer rules are better at weak pws 
+        - To keep a dict not larger that it needed to be, use the best source: cracked pws
+    - if the pw hashes are known to come from a particular site; what can we do 
 
 ## pw cracking Competition 
 1. [crack me if you can](https://contest.korelogic.com/)
@@ -71,6 +76,8 @@
 8. Unix-ninja DNA dict
 9. [Probable wordlist](https://github.com/berzerk0/Probable-Wordlists)
 10. [eff wordlist long](https://www.eff.org/files/2016/07/18/eff_large_wordlist.txt) & [short](https://www.eff.org/files/2016/09/08/eff_short_wordlist_1.txt)
+11. wikitionary 
+12. 
 
 ### Hashes
 1. HIBP SHA1 [hashes](https://haveibeenpwned.com/Passwords)
@@ -122,7 +129,7 @@
 1. Prince Attack
 2. [Distributed Hacking](https://www.openwall.com/john/doc/OPTIONS.shtml)
 
-### On-lione Hash Cracking Services
+### On-line Hash Cracking Services
 1. [GPUhash](https://gpuhash.me/)
 2. [CrackStation](https://crackstation.net/)
 3. [Online Hash Crack](https://www.onlinehashcrack.com/)
@@ -130,3 +137,5 @@
 ## [PCFG cracker](https://github.com/lakiw/pcfg_cracker)
 
 ## [NN cracker](https://github.com/cupslab/neural_network_cracking)
+
+## [Markov Chains](https://hal.archives-ouvertes.fr/hal-01112124/document)

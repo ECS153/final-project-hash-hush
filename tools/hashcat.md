@@ -26,6 +26,27 @@
 - `0`: not display the status at all
 - `600`: every 10 mins
 
+## `-w <num>`: set workload profile 
+1. low 
+2. default 
+3. high
+4. Insane
+
+## `--loop-back`: re-use the plains/passwords that did crack a hash
+- e.g. apply some rules - after the first run - to the modified and matching plains. This kind of looping will only stop if no more plains match.
+
+## `-j`, `-k`: takes 2 dicts, applies single rule to one of the dicts 
+- `-j`: apply one rule to the left dict
+- `-k`: apply one rule to the right dict 
+
+## `-o` <file>: output result to file 
+
+## `--session <str>`: name the session
+
+## `--restore --session <str>`: restore session with name <str>;
+- `--session <str>` is optional 
+
+## `-g <num>`: generate num random rules
 
 ## [Intro to HashCat](https://www.youtube.com/watch?v=EfqJCKWtGiU&t=1s)
 - The basic usage of Hashcat requires a minimum of 4 args 
@@ -37,8 +58,8 @@
     1. `0`: dictionary attack
     2. `1`: combination attack
     3. `3`: brute-force
-    4. `6`: hybrid dictionary + mask
-    5. `7`: hybrid mask + dictionary
+    4. `6`: hybrid dictionary + mask (appending masks)
+    5. `7`: hybrid mask + dictionary (prepending masks)
 
 3. file contains the hash tp be cracked or hash itself
 
@@ -56,7 +77,9 @@
     - `?u`: upper case letter
     - `?s`: special symbol
     - `?a`: all char sets 
-    - also, custom char set is also possible 
+- also, custom char set is also possible 
+    - `-1`, `-2`, `-3`, `-4` followed by the custom char set
+        - eg: use hex char set stored in `-1` buffer as mask: `-1 ?dabcdefABCDEF c6?1?1?1?d?1` (`?d` automatically sub for `123456890`, we know this pws starts with `c6` and the second to last char is a digit)
 
 - `-i`: enables mask increment mode
 
@@ -68,4 +91,6 @@
 - let this utility to generate candidates first, then pipe the outputs to hashcat; hashcat will take input dictionary from *STDIN* instead of from an input file
 - An improvement to combination attack
 - rather than take two wordlist, princeprocessor takes one worlist and builds chains of combined words; can have 1 to N words from the input wordlist concatenated together
-- princeprocessor can also take the output of another princeprocessor: prinception; 
+- princeprocessor can also take the output of another princeprocessor:
+  prinception
+
