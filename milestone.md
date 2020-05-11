@@ -3,14 +3,11 @@
 # Milestone 1
 ## Wenxuan Zhao
 ### What I did
-1. 
-2. 
+1. Learnt HashCat and figured out how to integrate password generation tools with Hashcat
+2. Found the state-of-the-art guessing generation tools: NN, Markov, and PCFG
+3. Read the original PCFG paper 
 
 ### Plan
-1.
-
-
-### Anything stuck 
-1. 
+1. Learn the PCFG implementation and figure out how to improve upon it.
 
 ## 
