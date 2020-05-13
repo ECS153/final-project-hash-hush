@@ -12,7 +12,6 @@
 
 ## 
 
-# Milestone 1
 ## Yiran Wu
 ### What I did
 1. Learnt HashCat and figured out how to integrate password generation tools with Hashcat
