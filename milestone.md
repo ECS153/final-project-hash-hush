@@ -23,3 +23,13 @@
 1. Learn how to implement RNN and start rebuild a simple version of password guessing.
 
 ## 
+
+## Zuang Yu
+### What I did
+1. Learnt HashCat and figured out how to integrate password generation tools with Hashcat
+2. Found the state-of-the-art guessing generation tools: NN, Markov, and PCFG.
+3. Read the original PCFG paper
+4. Collect the thoundsands of popular passwords, and collect the leaked database.
+
+### Plan
+1. Learn how to implement RNN and start to rebuild and improve the existing password guessing.
