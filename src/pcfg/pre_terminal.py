@@ -9,10 +9,10 @@ class Preterminal_Stats:
         # stats of bases
         # data structure: {<base>: <counter>}
         self.bases = {}
-        # stats of digit streams, indexed by length n 
-        # data structure: {<len>: {<digit stream>: <counter} }
+        # stats of digit streams, keyed by len 
+        # data structure: {<len>: {<digit stream>: <counter>} }
         self.digits = {}
-        # stats of symbol streams, indexed by length n
+        # stats of symbol streams, keyed by len
         # data structure: {<len>: {<symbol stream: <counter>} }
         self.symbols = {}
 
@@ -57,13 +57,27 @@ class Preterminal_Stats:
                 self.symbols[streamLen][symbolStream] = counter
     
     def showBases(self):
-        print (self.bases)
-    
+        sorted_bases = sorted(self.bases.items(), key=lambda x: x[1], reverse=True)
+        print ("{:<8} {:<15}".format('Base','Occurrences'))
+        for i in sorted_bases:
+            print ("{:<8} {:<15}".format(i[0], i[1]))
+
     def showDigits(self):
-        print (self.digits)
+        for len, digits in self.digits.items():
+            print (f"Stats for digit streams of length {len}: ")
+            sorted_digits = sorted(digits.items(), key=lambda x: x[1], reverse=True)
+            print ("{:<8} {:<15}".format('Digits','Occurrences'))
+            for i in sorted_digits:
+                print ("{:<8} {:<15}".format(i[0], i[1]))
+
 
     def showSymbols(self):
-        print (self.symbols)
+        for len, symbols in self.symbols.items():
+            print (f"Stats for symbol streams of length {len}: ")
+            sorted_symbols = sorted(symbols.items(), key=lambda x: x[1], reverse=True)
+            print ("{:<8} {:<15}".format('Symbols','Occurrences'))
+            for i in sorted_symbols:
+                print ("{:<8} {:<15}".format(i[0], i[1]))
 
 def main():
     # requires python 3 or above
@@ -80,7 +94,7 @@ def main():
     # process each line in the input wordlist
     try:
         preterminal_stats = Preterminal_Stats()
-        with open(fileName) as wordList:
+        with open(fileName, encoding='utf-8', errors='ignore') as wordList:
             for line in wordList:
                 preterminal_stats.pw_stats(line)
     except FileNotFoundError:

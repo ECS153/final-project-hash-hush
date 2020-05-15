@@ -124,7 +124,7 @@ def main():
 
     # process each line in the input wordlist
     try:
-        with open(fileName) as wordList:
+        with open(fileName, encoding='utf-8', errors='ignore') as wordList:
             for line in wordList:
                 stats = extract_base(line)
                 print (stats)
