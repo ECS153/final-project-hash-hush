@@ -1,3 +1,8 @@
+# 
+
+
+
+
 import sys
 from base_structure import extract_base
 
@@ -57,27 +62,37 @@ class Preterminal_Stats:
                 self.symbols[streamLen][symbolStream] = counter
     
     def showBases(self):
+        """Show the stats of bases, in decreasing order"""
+        allOccurences = sum(self.bases.values())
         sorted_bases = sorted(self.bases.items(), key=lambda x: x[1], reverse=True)
-        print ("{:<8} {:<15}".format('Base','Occurrences'))
+        print ("{:<12} {:<15}".format('Base','Probability'))
         for i in sorted_bases:
-            print ("{:<8} {:<15}".format(i[0], i[1]))
+            print ("{:<12} {:<15}".format(i[0], i[1]/allOccurences))
 
     def showDigits(self):
+        """Show the stats of digit streams, in decreasing order"""
+
         for len, digits in self.digits.items():
             print (f"Stats for digit streams of length {len}: ")
+            allOccurences = sum(digits.values())
             sorted_digits = sorted(digits.items(), key=lambda x: x[1], reverse=True)
-            print ("{:<8} {:<15}".format('Digits','Occurrences'))
+            print ("{:<8} {:<15}".format('Digits','Probability'))
             for i in sorted_digits:
-                print ("{:<8} {:<15}".format(i[0], i[1]))
+                print ("{:<8} {:<15}".format(i[0], '%.3f'%(i[1]/allOccurences)))
+            print()
 
 
     def showSymbols(self):
+        """Show the stats of symbol streams, in decreasing order"""
+
         for len, symbols in self.symbols.items():
             print (f"Stats for symbol streams of length {len}: ")
+            allOccurences = sum(symbols.values())
             sorted_symbols = sorted(symbols.items(), key=lambda x: x[1], reverse=True)
-            print ("{:<8} {:<15}".format('Symbols','Occurrences'))
+            print ("{:<8} {:<15}".format('Symbols','Probability'))
             for i in sorted_symbols:
-                print ("{:<8} {:<15}".format(i[0], i[1]))
+                print ("{:<8} {:<15}".format(i[0], '%.3f'%(i[1]/allOccurences)))
+            print()
 
 def main():
     # requires python 3 or above
