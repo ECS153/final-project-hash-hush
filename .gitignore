@@ -3,3 +3,6 @@
 # ignore all pdfs 
 *.pdf
 game_of_wits.*
+
+# ignore pyenv config file 
+.python-version
