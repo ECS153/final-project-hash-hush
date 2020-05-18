@@ -6,11 +6,12 @@
 1. Learnt HashCat and figured out how to integrate password generation tools with Hashcat
 2. Found the state-of-the-art guessing generation tools: NN, Markov, and PCFG
 3. Read the original PCFG paper 
+4. implement the pcfg pre_terminal training step
+5. make the milestone 1 [video](https://youtu.be/iwor-xvDkFM)
 
 ### Plan
 1. Learn the PCFG implementation and figure out how to improve upon it.
 
-## 
 
 ## Yiran Wu
 ### What I did
