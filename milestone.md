@@ -34,3 +34,16 @@
 
 ### Plan
 1. Learn how to implement RNN and start to rebuild and improve the existing password guessing.
+
+
+
+# Milestone 2
+## Zuang Yu
+### What I did
+1. Learn RNN concepts and how to build it.
+2. Learn Markov model for password guessing and compare Markov model with RNN model.
+3. Understand and improve existing RNN model.
+4. Make a video for weekly project meeting.
+
+### Plan
+1. Continue improving RNN and figure out how to improve its efficiency.
