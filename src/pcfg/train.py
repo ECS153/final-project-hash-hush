@@ -4,7 +4,7 @@
 
 
 import sys
-from base_structure import extract_base
+from preprocessing import extract_stats
 
 class Preterminal_Stats:
     """Record the Stats for the probabilities of base structs and digits and symbols"""
@@ -20,10 +20,15 @@ class Preterminal_Stats:
         # stats of symbol streams, keyed by len
         # data structure: {<len>: {<symbol stream: <counter>} }
         self.symbols = {}
+        # stats of the dictionary, keyed by len 
+        # data structure: {<len>: <count>}
+        self.alphas = {}
+        # size of the dictionary 
+        self.dictSize = 0
 
     def pw_stats(self, line):
         """generate the relevant stats about the input password"""
-        statsOfPw = extract_base(line)
+        statsOfPw = extract_stats(line)
         if statsOfPw == None:
             return 
         # populate the bases
@@ -61,6 +66,18 @@ class Preterminal_Stats:
                 self.symbols[streamLen] = {}
                 self.symbols[streamLen][symbolStream] = counter
     
+    def dict_stats(self, line):
+        """count the number of words of length n in the dictionary"""
+
+        ## Assume the input dict file is one word per line, delimited by the new line char. The last line of the file is a newline char
+
+        wordLen = len(line) - 1
+        if wordLen in self.alphas:
+            self.alphas[wordLen] += 1
+        else:
+            self.alphas[wordLen] = 1
+
+    
     def showBases(self):
         """Show the stats of bases, in decreasing order"""
         allOccurences = sum(self.bases.values())
@@ -94,30 +111,50 @@ class Preterminal_Stats:
                 print ("{:<8} {:<15}".format(i[0], '%.3f'%(i[1]/allOccurences)))
             print()
 
+    def showDict(self):
+        """Show the probability of words of length n"""
+        print (self.alphas)
+
+
 def main():
     # requires python 3 or above
     if sys.version_info[0] < 3:
         print("This program requires Python 3.x", file=sys.stderr)
         sys.exit(1)
 
-    # read in the name of the input file 
+    # read in the name of the wordlist 
     try:
-        fileName = sys.argv[1]
+        wordlist = sys.argv[1]
     except IndexError:
-        raise SystemExit(f"Usage: {sys.argv[0]} <input_wordlist>")
+        raise SystemExit(f"Usage: {sys.argv[0]} <wordlist> <dictionary>")
 
     # process each line in the input wordlist
     try:
         preterminal_stats = Preterminal_Stats()
-        with open(fileName, encoding='utf-8', errors='ignore') as wordList:
+        with open(wordlist, encoding='utf-8', errors='ignore') as wordList:
             for line in wordList:
                 preterminal_stats.pw_stats(line)
     except FileNotFoundError:
-        print (f"Sorry, the file {fileName} does not exist")
+        print (f"Sorry, the file {wordlist} does not exist")
+
+    # read in the name of the dictionary  
+    try:
+        dictionary = sys.argv[2]
+    except IndexError:
+        raise SystemExit(f"Usage: {sys.argv[0]} <wordlist> <dictionary>")
+
+    # process each line in the input dictionary 
+    try:
+        with open(dictionary, encoding='utf-8', errors='ignore') as dictIonary:
+            for line in dictIonary:
+                preterminal_stats.dict_stats(line)
+    except FileNotFoundError:
+        print (f"Sorry, the file {dictionary} does not exist")
     
-    preterminal_stats.showBases()
-    preterminal_stats.showDigits()
-    preterminal_stats.showSymbols()
+    #preterminal_stats.showBases()
+    #preterminal_stats.showDigits()
+   # preterminal_stats.showSymbols()
+    preterminal_stats.showDict()
     
 if __name__ == "__main__":
     main()
