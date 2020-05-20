@@ -1,12 +1,9 @@
-# 
-
-
-
+"""Train the PCFG model"""
 
 import sys
 from preprocessing import extract_stats
 
-class Preterminal_Stats:
+class Train:
     """Record the Stats for the probabilities of base structs and digits and symbols"""
 
     def __init__(self):
@@ -20,8 +17,8 @@ class Preterminal_Stats:
         # stats of symbol streams, keyed by len
         # data structure: {<len>: {<symbol stream: <counter>} }
         self.symbols = {}
-        # stats of the dictionary, keyed by len 
-        # data structure: {<len>: <count>}
+        # partitions the dictionary by len 
+        # data structure: {<len>: <words>}; <words> is a vector of string
         self.alphas = {}
         # size of the dictionary 
         self.dictSize = 0
@@ -67,19 +64,22 @@ class Preterminal_Stats:
                 self.symbols[streamLen][symbolStream] = counter
     
     def dict_stats(self, line):
-        """count the number of words of length n in the dictionary"""
+        """partitions the dictionary by len"""
 
         ## Assume the input dict file is one word per line, delimited by the new line char. The last line of the file is a newline char
 
-        wordLen = len(line) - 1
-        if wordLen in self.alphas:
-            self.alphas[wordLen] += 1
-        else:
-            self.alphas[wordLen] = 1
+        self.dictSize += 1
+
+        wordLen = len(line) 
+        if wordLen not in self.alphas:
+            self.alphas[wordLen] = []
+    
+        self.alphas[wordLen].append(line)
 
     
     def showBases(self):
         """Show the stats of bases, in decreasing order"""
+        
         allOccurences = sum(self.bases.values())
         sorted_bases = sorted(self.bases.items(), key=lambda x: x[1], reverse=True)
         print ("{:<12} {:<15}".format('Base','Probability'))
@@ -113,16 +113,15 @@ class Preterminal_Stats:
 
     def showDict(self):
         """Show the probability of words of length n"""
+        
         print (self.alphas)
+        print (self.dictSize)
 
 
 def main():
-    # requires python 3 or above
-    if sys.version_info[0] < 3:
-        print("This program requires Python 3.x", file=sys.stderr)
-        sys.exit(1)
 
-    # read in the name of the wordlist 
+    print ("Usage: ")
+     # read in the name of the wordlist 
     try:
         wordlist = sys.argv[1]
     except IndexError:
@@ -130,10 +129,10 @@ def main():
 
     # process each line in the input wordlist
     try:
-        preterminal_stats = Preterminal_Stats()
+        train = Train()
         with open(wordlist, encoding='utf-8', errors='ignore') as wordList:
             for line in wordList:
-                preterminal_stats.pw_stats(line)
+                train.pw_stats(line)
     except FileNotFoundError:
         print (f"Sorry, the file {wordlist} does not exist")
 
@@ -147,14 +146,15 @@ def main():
     try:
         with open(dictionary, encoding='utf-8', errors='ignore') as dictIonary:
             for line in dictIonary:
-                preterminal_stats.dict_stats(line)
+                train.dict_stats(line.rstrip('\n'))
     except FileNotFoundError:
         print (f"Sorry, the file {dictionary} does not exist")
     
-    #preterminal_stats.showBases()
-    #preterminal_stats.showDigits()
-   # preterminal_stats.showSymbols()
-    preterminal_stats.showDict()
+    train.showBases()
+    #train.showDigits()
+   # train.showSymbols()
+    train.showDict()
     
+
 if __name__ == "__main__":
     main()
