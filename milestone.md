@@ -47,3 +47,12 @@
 
 ### Plan
 1. Continue improving RNN and figure out how to improve its efficiency.
+
+## Wenxuan Zhao
+### What I did
+1. Finished half of the implementation of PCFG algorithm 
+
+### Plan
+1. finish the PCFG algorithm 
+2. Start experimenting
+
