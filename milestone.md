@@ -43,7 +43,7 @@
 1. Learn RNN concepts and how to build it.
 2. Learn Markov model for password guessing and compare Markov model with RNN model.
 3. Understand and improve existing RNN model.
-4. Make a video for weekly project meeting.
+4. Make a video for weekly project meeting [video](https://www.youtube.com/watch?v=Pz-gCy5NE9I&feature=youtu.be)
 
 ### Plan
 1. Continue improving RNN and figure out how to improve its efficiency.
