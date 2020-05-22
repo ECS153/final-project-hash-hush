@@ -56,3 +56,11 @@
 1. finish the PCFG algorithm 
 2. Start experimenting
 
+## Yiran Wu
+### What I did
+1. Complete RNN
+2. Figure out how to use google cloud to train the RNN and start the training
+
+### Plan
+1. Figure how to use RNN to generate 1 billion passwords
+
