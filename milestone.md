@@ -62,5 +62,5 @@
 2. Figure out how to use google cloud to train the RNN and start the training
 
 ### Plan
-1. Figure how to use RNN to generate 1 billion passwords
+1. Figure out how to use RNN to generate 1 billion passwords
 
