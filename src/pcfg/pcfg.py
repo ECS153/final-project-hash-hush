@@ -22,7 +22,7 @@ def PCFGtrain(ts, dictionary, mode):
             for line in wordList:
                 model.pw_stats(line)
     except FileNotFoundError:
-        print (f"Sorry, the file {ts} does not exist")
+        print (f"The file {ts} does not exist")
     
     # dict stats
     if (dictionary):
@@ -31,12 +31,9 @@ def PCFGtrain(ts, dictionary, mode):
                 for line in dictIonary:
                     model.dict_stats(line.rstrip('\n'))
         except FileNotFoundError:
-            print (f"Sorry, the file {dictionary} does not exist")
+            print (f"The file {dictionary} does not exist")
     
-    model.showBases()
-    #train.showDigits()
-   # train.showSymbols()
-    model.showDict()
+    model.base_organize(mode)
 
 
 def main():

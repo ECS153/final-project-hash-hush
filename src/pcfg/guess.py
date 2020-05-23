@@ -21,12 +21,13 @@ class Guess:
 
 
 
+
+
+
+
 def main():
-    print ("Usage: ")
+    print ("Please refer to README for usage and examples")
 
-
-
-
-    
+   
 if __name__ == "__main__":
     main()

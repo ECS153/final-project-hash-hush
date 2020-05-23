@@ -1,6 +1,7 @@
 """Train the PCFG model"""
 
 import sys
+import re
 from preprocessing import extract_stats
 
 class Train:
@@ -22,9 +23,14 @@ class Train:
         self.alphas = {}
         # size of the dictionary 
         self.dictSize = 0
+        # size of the wordlist 
+        self.listSize = 0
+
 
     def pw_stats(self, line):
         """generate the relevant stats about the input password"""
+        self.listSize += 1
+
         statsOfPw = extract_stats(line)
         if statsOfPw == None:
             return 
@@ -62,7 +68,60 @@ class Train:
             else: 
                 self.symbols[streamLen] = {}
                 self.symbols[streamLen][symbolStream] = counter
+
     
+    def base_organize(self, mode):
+        """Organize the structure of the base (occurences -> probability), modify the probability based on the mode"""
+
+        for base in self.bases:
+            self.bases[base] /= self.listSize
+
+        if (mode == 1): # terminal order 
+            # Modify the base probability based on the dictionary:
+            # The probability of L3, for example is the number of 3 letter words in the dictionary divided by the size of the dictionary
+            wordProb = {}
+            for leng in self.alphas:
+                wordProb['L'+ str(leng)] = len(self.alphas[leng]) / self.dictSize
+
+            pattern = re.compile('L[0-9]+')
+            for base in self.bases:
+                matches = pattern.findall(base)
+                if matches: # if match
+                    for match in matches:
+                        if match in wordProb:
+                            self.bases[base] *= wordProb[match]
+                        else:
+                            self.bases[base] = 0
+        print (self.bases)
+
+
+    def ds_organize(self):
+        """Organize the structure of the Digits and Symbols (occurences -> probability) and sort them by probability; prob table for each length"""
+        # digits
+        for len, digits in self.digits.items():
+            # for a given length, sum the number of occurrences 
+            allOccurences = sum(digits.values())
+            # occurences ==> probability 
+            for sequence in digits:
+                digits[sequence] /= allOccurences 
+            # sort the sequences, given the len, by probability
+            # Data structure of self.digits:
+            # {<len>: [(<seq>, <prob>)]}, <seq> is the digit sequence string, <prob>: the probability of that sequence given the length
+            self.digits[len] = sorted(digits.items(), key=lambda x: x[1], reverse=True)
+        
+        # symbols
+        for len, symbols in self.symbols.items():
+            # for a given length, sum the number of occurrences 
+            allOccurences = sum(symbols.values())
+            # occurences ==> probability 
+            for sequence in symbols:
+                symbols[sequence] /= allOccurences 
+            # sort the sequences, given the len, by probability
+            # Data structure of self.symbols:
+            # {<len>: [(<seq>, <prob>)]}, <seq> is the symbol sequence string, <prob>: the probability of that sequence given the length
+            self.symbols[len] = sorted(symbols.items(), key=lambda x: x[1], reverse=True)
+
+  
     def dict_stats(self, line):
         """partitions the dictionary by len"""
 
@@ -77,29 +136,30 @@ class Train:
         self.alphas[wordLen].append(line)
 
     
-    def showBases(self):
+    def printBases(self):
         """Show the stats of bases, in decreasing order"""
         
-        allOccurences = sum(self.bases.values())
+        allOccurences = self.listSize
         sorted_bases = sorted(self.bases.items(), key=lambda x: x[1], reverse=True)
         print ("{:<12} {:<15}".format('Base','Probability'))
         for i in sorted_bases:
             print ("{:<12} {:<15}".format(i[0], i[1]/allOccurences))
 
-    def showDigits(self):
+
+    def printDigits(self):
         """Show the stats of digit streams, in decreasing order"""
 
         for len, digits in self.digits.items():
             print (f"Stats for digit streams of length {len}: ")
             allOccurences = sum(digits.values())
             sorted_digits = sorted(digits.items(), key=lambda x: x[1], reverse=True)
-            print ("{:<8} {:<15}".format('Digits','Probability'))
-            for i in sorted_digits:
-                print ("{:<8} {:<15}".format(i[0], '%.3f'%(i[1]/allOccurences)))
-            print()
+            # print ("{:<8} {:<15}".format('Digits','Probability'))
+            # for i in sorted_digits:
+            #     print ("{:<8} {:<15}".format(i[0], '%.3f'%(i[1]/allOccurences)))
+            print(sorted_digits)
 
 
-    def showSymbols(self):
+    def printSymbols(self):
         """Show the stats of symbol streams, in decreasing order"""
 
         for len, symbols in self.symbols.items():
@@ -111,16 +171,23 @@ class Train:
                 print ("{:<8} {:<15}".format(i[0], '%.3f'%(i[1]/allOccurences)))
             print()
 
-    def showDict(self):
+
+    def printDict(self):
         """Show the probability of words of length n"""
         
         print (self.alphas)
         print (self.dictSize)
+        
+
+    def printList(self):
+        
+        print (self.listSize)
+        
 
 
 def main():
 
-    print ("Usage: ")
+    print ("Please refer to README for usage and examples")
      # read in the name of the wordlist 
     try:
         wordlist = sys.argv[1]
@@ -134,7 +201,7 @@ def main():
             for line in wordList:
                 train.pw_stats(line)
     except FileNotFoundError:
-        print (f"Sorry, the file {wordlist} does not exist")
+        print (f"The file {wordlist} does not exist")
 
     # read in the name of the dictionary  
     try:
@@ -148,12 +215,9 @@ def main():
             for line in dictIonary:
                 train.dict_stats(line.rstrip('\n'))
     except FileNotFoundError:
-        print (f"Sorry, the file {dictionary} does not exist")
+        print (f"The file {dictionary} does not exist")
     
-    train.showBases()
-    #train.showDigits()
-   # train.showSymbols()
-    train.showDict()
+    train.printDigits()
     
 
 if __name__ == "__main__":
