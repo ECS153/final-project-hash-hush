@@ -36,20 +36,20 @@ class GuessGen:
     def pqInit(self):
         """Initialize the priority Queue"""
         # A queue object:
-        # (<prob>, {'base': <base struct>, 'preterminal': <preterminal struct>, 'pv': pivot value}, 'tableIndices': [])
+        # [<prob>, [<sub-bases>], <pv>, <preterminal>, [<tableIndices>]]
         Lp = re.compile('L')
         Dp = re.compile('D')
         Sp = re.compile('S')
 
         for base in self.tResult.bases:
-            qObject = {}
-            qObject['base'] = parseBase(base)
-            qObject['tableIndices'] = [0] * len(qObject['base'])
-            qObject['pv'] = -1
+            qObject = [None] * 5
+            qObject[1] = parseBase(base)
+            qObject[4] = [0] * len(qObject[1])
+            qObject[2] = -1
             prob = -1 * self.tResult.bases[base]
             preterminal = ""
             
-            for sB in qObject['base']:
+            for sB in qObject[1]:
                 if Lp.match(sB): # if the sub-base contains letter 'L': an alpha sub-base
                     preterminal += sB
                     continue
@@ -70,19 +70,22 @@ class GuessGen:
                         print ("Error!")
                         sys.exit(1)
 
-            qObject['preterminal'] = preterminal
-            qObject = (prob, qObject)
+            qObject[3] = preterminal
+            qObject[0] = prob
             # insert the q object into the pq
             self.pq.put(qObject)
 
     def printPq (self):
 
         row_format ="{:<}" + "{:>15}" * 4 + "{:>20}"
-        print(row_format.format("",'Probability','Sub-Bases', 'Pre-terminal', 'Pivot Value','Indices'))
+        print(row_format.format("",'Probability','Sub-Bases', 'Pivot Value', 'Pre-terminal','Indices'))
 
         while not self.pq.empty():
             qObject = self.pq.get()
-            print(row_format.format("", '%.3f'%(-1 * qObject[0]), "".join(qObject[1]['base']), qObject[1]['preterminal'], qObject[1]['pv'], str(qObject[1]['tableIndices'])))
+            if qObject[0] == 0:
+                print(row_format.format("", '0' , "".join(qObject[1]), qObject[2], qObject[3], str(qObject[4])))
+            else:
+                print(row_format.format("", '%.3f'%(-1 * qObject[0]), "".join(qObject[1]), qObject[2], qObject[3], str(qObject[4])))
  
 
 
