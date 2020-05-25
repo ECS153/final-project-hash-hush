@@ -92,7 +92,6 @@ class Train:
                             self.bases[base] *= wordProb[match]
                         else:
                             self.bases[base] = 0
-        print (self.bases)
 
 
     def ds_organize(self):
@@ -137,51 +136,40 @@ class Train:
 
     
     def printBases(self):
-        """Show the stats of bases, in decreasing order"""
-        
-        allOccurences = self.listSize
-        sorted_bases = sorted(self.bases.items(), key=lambda x: x[1], reverse=True)
+        """Stats of bases, in decreasing order"""
         print ("{:<12} {:<15}".format('Base','Probability'))
-        for i in sorted_bases:
-            print ("{:<12} {:<15}".format(i[0], i[1]/allOccurences))
+        for base in self.bases:
+            print ("{:<12} {:<15}".format(base, self.bases[base]))
 
 
     def printDigits(self):
-        """Show the stats of digit streams, in decreasing order"""
+        """Stats of digit streams, in decreasing order"""
 
         for len, digits in self.digits.items():
             print (f"Stats for digit streams of length {len}: ")
-            allOccurences = sum(digits.values())
-            sorted_digits = sorted(digits.items(), key=lambda x: x[1], reverse=True)
-            # print ("{:<8} {:<15}".format('Digits','Probability'))
-            # for i in sorted_digits:
-            #     print ("{:<8} {:<15}".format(i[0], '%.3f'%(i[1]/allOccurences)))
-            print(sorted_digits)
+            print ("{:<8} {:<15}".format('Digits','Probability'))
+            for sequence in digits:
+                print ("{:<8} {:<15}".format(sequence[0], '%.3f'%(sequence[1])))
 
 
     def printSymbols(self):
-        """Show the stats of symbol streams, in decreasing order"""
+        """Stats of symbol streams, in decreasing order"""
 
         for len, symbols in self.symbols.items():
             print (f"Stats for symbol streams of length {len}: ")
-            allOccurences = sum(symbols.values())
-            sorted_symbols = sorted(symbols.items(), key=lambda x: x[1], reverse=True)
             print ("{:<8} {:<15}".format('Symbols','Probability'))
-            for i in sorted_symbols:
-                print ("{:<8} {:<15}".format(i[0], '%.3f'%(i[1]/allOccurences)))
-            print()
+            for sequence in symbols:
+                print ("{:<8} {:<15}".format(sequence[0], '%.3f'%(sequence[1])))
 
 
     def printDict(self):
-        """Show the probability of words of length n"""
-        
-        print (self.alphas)
-        print (self.dictSize)
+        """Stats of the dictionary"""
+        print (f"The size of the input dictionary is {self.dictSize}")
         
 
     def printList(self):
-        
-        print (self.listSize)
+        """Stats of the wordlist"""
+        print (f"The size of the input wordlist is {self.listSize}")
         
 
 
