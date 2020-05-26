@@ -202,14 +202,14 @@ inputfile = ""
 try:
     opts, args = getopt.getopt(input,"i:n:o:")
 except getopt.GetoptError:
-    print("pw_generator.py -i <TrainingSet> -n <epochs|Optional> -o <offset|Optional>")
+    print("pw_training.py -i <TrainingSet> -n <epochs|Optional> -o <offset|Optional>")
     sys.exit(2)
     
 for opt, arg in opts:
     if opt == "-i" :
         if ".txt" not in arg:
             print("Error: TrainingSet must be a txt.")
-            print("pw_generator.py -i <TrainingSet> -n <epochs|Optional> -o <offset|Optional>")
+            print("pw_training.py -i <TrainingSet> -n <epochs|Optional> -o <offset|Optional>")
             sys.exit(2)
             
         inputfile = arg
@@ -218,17 +218,17 @@ for opt, arg in opts:
            epochs = int(arg)
         except ValueError:
            print("Error: Epochs must be integer")
-           print("pw_generator.py -i <TrainingSet> -n <epochs|Optional> -o <offset|Optional>")
+           print("pw_training.py -i <TrainingSet> -n <epochs|Optional> -o <offset|Optional>")
     elif opt == "-o":
         try:
            offset = int(arg)
         except ValueError:
            print("Error: Offset must be integer")
-           print("pw_generator.py -i <TrainingSet> -n <epochs|Optional> -o <offset|Optional>")
+           print("pw_training.py -i <TrainingSet> -n <epochs|Optional> -o <offset|Optional>")
 
 if(inputfile == ""):
     print("Error: Must have a training set.")
-    print("pw_generator.py -i <TrainingSet> -n <epochs|Optional> -o <offset|Optional>")
+    print("pw_training.py -i <TrainingSet> -n <epochs|Optional> -o <offset|Optional>")
     sys.exit(2)
 
 #print(offset)
