@@ -1,4 +1,4 @@
-# RNN Passwords generator 
+# RNN Passwords Generator 
 Simple RNN that can be trained with passwords and then generate guesses. 
 
 Sample training set: [rockyou.txt](https://www.kaggle.com/wjburns/common-password-list-rockyoutxt)
