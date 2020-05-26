@@ -58,7 +58,7 @@ def pcfgGuess(budget, model):
         preterminal = guesser.pqPopInsert()
         # step 2: generate actual guesses
         # feed the preterminal to the guesser to fill the 'L#' structures 
-        guesses = guesser.guess(preterminal)
+        guesser.guess(preterminal)
 
 
 def main():

@@ -28,6 +28,7 @@ class Train:
         #
         self.digitStats = {}
         self.symbolStats = {}
+        self.dictStats = {}
 
 
     def pw_stats(self, line):
@@ -79,22 +80,23 @@ class Train:
         for base in self.bases:
             self.bases[base] /= self.listSize
 
-        if (mode == 1): # terminal order 
-            # Modify the base probability based on the dictionary:
-            # The probability of L3, for example is the number of 3 letter words in the dictionary divided by the size of the dictionary
-            wordProb = {}
-            for leng in self.alphas:
-                wordProb['L'+ str(leng)] = len(self.alphas[leng]) / self.dictSize
+        
+        wordProb = {}
+        for leng in self.alphas:
+            self.dictStats[leng] = len(self.alphas[leng])
+            wordProb['L'+ str(leng)] = self.dictStats[leng] / self.dictSize
 
-            pattern = re.compile('L[0-9]+')
-            for base in self.bases:
-                matches = pattern.findall(base)
-                if matches: # if match
-                    for match in matches:
-                        if match in wordProb:
-                            self.bases[base] *= wordProb[match]
-                        else:
-                            self.bases[base] = 0
+        pattern = re.compile('L[0-9]+')
+        for base in self.bases:
+            matches = pattern.findall(base)
+            if matches: # if match
+                for match in matches:
+                    if match in wordProb and mode == 1: # terminal order 
+                        # Modify the base probability based on the dictionary:
+                        # The probability of L3, for example is the number of 3 letter words in the dictionary divided by the size of the dictionary:
+                        self.bases[base] *= wordProb[match]
+                    elif match not in wordProb:
+                        self.bases[base] = 0
 
 
     def ds_organize(self):
@@ -170,8 +172,8 @@ class Train:
     def printDict(self):
         """Stats of the dictionary"""
         print (f"The size of the input dictionary is {self.dictSize}")
-        for leng in self.alphas:
-            print (f"There are {len(self.alphas[leng])} words of length {leng}")
+        for leng in self.dictStats:
+            print (f"There are {self.dictStats[leng]} words of length {leng}")
         
 
     def printList(self):
