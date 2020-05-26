@@ -92,7 +92,7 @@ while i < numGuesses:
     if(prob > threshold):
         i = i + 1
         file.writelines(s + '\n')
-        if i % 10000 == 0:
+        if i % 100000000 == 0:
             fcount = fcount + 1
             file.close()
             print(str(i) + " passwords are generated")
