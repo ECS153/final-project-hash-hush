@@ -25,6 +25,9 @@ class Train:
         self.dictSize = 0
         # size of the wordlist 
         self.listSize = 0
+        #
+        self.digitStats = {}
+        self.symbolStats = {}
 
 
     def pw_stats(self, line):
@@ -97,7 +100,7 @@ class Train:
     def ds_organize(self):
         """Organize the structure of the Digits and Symbols (occurences -> probability) and sort them by probability; prob table for each length"""
         # digits
-        for len, digits in self.digits.items():
+        for leng, digits in self.digits.items():
             # for a given length, sum the number of occurrences 
             allOccurences = sum(digits.values())
             # occurences ==> probability 
@@ -106,10 +109,11 @@ class Train:
             # sort the sequences, given the len, by probability
             # Data structure of self.digits:
             # {<len>: [(<seq>, <prob>)]}, <seq> is the digit sequence string, <prob>: the probability of that sequence given the length
-            self.digits[len] = sorted(digits.items(), key=lambda x: x[1], reverse=True)
+            self.digits[leng] = sorted(digits.items(), key=lambda x: x[1], reverse=True)
+            self.digitStats[leng] = len(self.digits[leng]) - 1
         
         # symbols
-        for len, symbols in self.symbols.items():
+        for leng, symbols in self.symbols.items():
             # for a given length, sum the number of occurrences 
             allOccurences = sum(symbols.values())
             # occurences ==> probability 
@@ -118,7 +122,8 @@ class Train:
             # sort the sequences, given the len, by probability
             # Data structure of self.symbols:
             # {<len>: [(<seq>, <prob>)]}, <seq> is the symbol sequence string, <prob>: the probability of that sequence given the length
-            self.symbols[len] = sorted(symbols.items(), key=lambda x: x[1], reverse=True)
+            self.symbols[leng] = sorted(symbols.items(), key=lambda x: x[1], reverse=True)
+            self.symbolStats[leng] = len(self.symbols[leng]) - 1
 
   
     def dict_stats(self, line):
@@ -165,6 +170,8 @@ class Train:
     def printDict(self):
         """Stats of the dictionary"""
         print (f"The size of the input dictionary is {self.dictSize}")
+        for leng in self.alphas:
+            print (f"There are {len(self.alphas[leng])} words of length {leng}")
         
 
     def printList(self):

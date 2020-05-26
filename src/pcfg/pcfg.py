@@ -42,19 +42,23 @@ def pcfgTrain(ts, dictionary, mode):
 def pcfgGuess(budget, model):
     """Generate guesses based on the trained model and guessing budget"""
 
-    guesser = GuessGen(model)
+    guesser = GuessGen(model, budget)
     # step 1: generate pre-terminal structures 
     # 1.1: initialize the priority queue with the highest prob pre-terminal structure instance of all base strucures 
     guesser.pqInit()
-    guesser.printPq()
-   
+
     # while the guesser can still generate guesses 
-    # while (not guesser.finished): # and guesser.guessingNumber <= budget):
-    #     # 1.2: implement the `next` function that inserts pre-terminal strucutures into the queue when one pre-terminal struct is popped from the queue
-    #     preterminal = guesser.pqPopInsert()
-    #     # step 2: generate actual guesses
-    #     # feed the preterminal to the guesser to fill the 'L#' structures 
-    #     guesses = guesser.guess(preterminal, budget)
+    # 2 cases when finished
+    # 1): the guesser generates all possible guesses
+    # 2): exceed the budget 
+    # 3): TODO: when user presses ctrl-c
+    while (not guesser.finished):
+
+        # 1.2: implement the `next` function that inserts pre-terminal strucutures into the queue when one pre-terminal struct is popped from the queue
+        preterminal = guesser.pqPopInsert()
+        # step 2: generate actual guesses
+        # feed the preterminal to the guesser to fill the 'L#' structures 
+        guesses = guesser.guess(preterminal)
 
 
 def main():
