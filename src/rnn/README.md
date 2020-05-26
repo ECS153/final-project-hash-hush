@@ -6,7 +6,7 @@ Sample training set: [rockyou.txt](https://www.kaggle.com/wjburns/common-passwor
 RNN credits from [Build RNN From Scratch](https://songhuiming.github.io/pages/2017/08/20/build-recurrent-neural-network-from-scratch/)
 ## pw_training.py
 ### TO RUN
-  - **pw_training.py -i <TrainingSet> -n <epochs|Optional> -o <offset|Optional>**
+  - pw_training.py -i <TrainingSet> -n <epochs|Optional> -o <offset|Optional>
     - **TrainingSet** must be an .txt
     - **epochs** must be a postive integer, Default is 10.
     - **offset** must be a postive integer. Default is 0. 
@@ -23,7 +23,7 @@ Hyperparameters can be set inside the code.
 
 ## pw_guesses.py
 ### TO RUN
-  - **pw_guesses.py -o <outputfile> -n <numGuesses> -p <threshold|Optional>**
+  - pw_guesses.py -o <outputfile> -n <numGuesses> -p <threshold|Optional>**
     - **output file** must be an .txt. For packing and convience, the outfile would be splited every 100,000,000 guesses.
       That is, if the out file is  out.txt  ,  the first 100,000,000 guesses would be stored in out_0.txt. Then out_1.txt, out_2.txt, etc.
     - **numGuesses** must be a postive integer, which is number of guesses you want to generate.
