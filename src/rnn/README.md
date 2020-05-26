@@ -1,4 +1,7 @@
 # RNN Passwords generator 
+Simple RNN that can be trained with passwords and then generate guesses. 
+Sample training set: [rockyou.txt](https://www.kaggle.com/wjburns/common-password-list-rockyoutxt)
+RNN credits from [Build RNN From Scratch](https://songhuiming.github.io/pages/2017/08/20/build-recurrent-neural-network-from-scratch/)
 ## pw_training.py
 ### TO RUN
   - pw_training.py -i <TrainingSet> -n <epochs|Optional> -o <offset|Optional>
@@ -8,7 +11,7 @@
       The offset is for contiguous training. We are using sgd, sometimes one epoch takes a long time that 
       it could got interrupted. Number of training samples will be printed out, and you can use it to continue that epoch.
       U.npy, V.npy, W.npy will be updated every 1,000,000 training samples.
-### functionality 
+### FUNCTIONALITY 
 Train the RNN with a <inputpassword.txt>. The RNN will learn about the features in this txt, and save the weights to U.npy, V.npy, W.npy
 for future use. 
 Hyperparameters can be set inside the code. 
@@ -24,5 +27,5 @@ Hyperparameters can be set inside the code.
     - numGuesses must be a postive integer, which is number of guesses you want to generate.
     - threshold must be a decimal between 0 and 1. We recommend it to be set below 0.5, if a threhold is high, it takes longer time to finish the tasks
       since passwords with probabilty lower than the threshold will be dumped.
-### functionality 
+### FUNCTIONALITY 
 Generate guesses. There should be U.npy, V.npy, W.npy within the same directory, which would be used to caculate possiblity. 
