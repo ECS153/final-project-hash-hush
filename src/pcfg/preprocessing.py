@@ -1,6 +1,6 @@
-# Purpose: parse the base structure of an input password 
+# Purpose: parse the base structure & extract the stats of an input password 
 # input: a password in the training wordlist 
-# output: the base structure of the password
+# output: the base structure, digit sequence, symbol sequence of the password
 # available variables (nonterminals):
 # Ln, Sn, Dn
 # Ln: alpha string of length n (contains only English alphabet)
@@ -18,7 +18,7 @@
 
 import sys
 
-def extract_base(line, charSet={}):
+def extract_stats(line, charSet={}):
     
     l = s = d = 0
     base = ""
@@ -126,7 +126,7 @@ def main():
     try:
         with open(fileName, encoding='utf-8', errors='ignore') as wordList:
             for line in wordList:
-                stats = extract_base(line)
+                stats = extract_stats(line)
                 print (stats)
     except FileNotFoundError:
         print (f"Sorry, the file {fileName} does not exist")    
