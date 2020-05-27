@@ -74,3 +74,11 @@
 
 ### Plan
 1. Use the guesses generated to crack the SHA1 Hashcodes, and compare the performances.
+
+## Zuang Yu
+### What I did
+1. Update the RNN Password generator.
+2. Generate the 800 million passwords with the trained model.
+
+### Plan
+1. Generate 400 million more passwords and compare performace 
