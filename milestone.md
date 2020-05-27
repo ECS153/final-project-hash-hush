@@ -64,3 +64,21 @@
 ### Plan
 1. Figure out how to use RNN to generate 1 billion passwords
 
+# Milestone 3
+
+## Yiran Wu
+### What I did
+1. Trained the RNN
+2. Finish RNN Password generator and start producing guesses.
+3. Updated the RNN README.md
+
+### Plan
+1. Use the guesses generated to crack the SHA1 Hashcodes, and compare the performances.
+
+## Zuang Yu
+### What I did
+1. Update the RNN Password generator.
+2. Generate the 800 million passwords with the trained model.
+
+### Plan
+1. Generate 400 million more passwords and compare performace 
