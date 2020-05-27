@@ -14,8 +14,6 @@
 # Note: Special symbol is defined as non-digit and non-alphabet
 # TODO: add custom dictionary (terminals)
 
-
-
 import sys
 
 def extract_stats(line, charSet={}):
@@ -116,21 +114,9 @@ def extract_stats(line, charSet={}):
     return statsOfPw
 
 def main():
-    """For testing purpose"""
-    try:
-        fileName = sys.argv[1]
-    except IndexError:
-        raise SystemExit(f"Usage: {sys.argv[0]} <input_wordlist>")
-
-    # process each line in the input wordlist
-    try:
-        with open(fileName, encoding='utf-8', errors='ignore') as wordList:
-            for line in wordList:
-                stats = extract_stats(line)
-                print (stats)
-    except FileNotFoundError:
-        print (f"Sorry, the file {fileName} does not exist")    
+    print ("Please refer to README for usage and examples")   
     
+
 if __name__ == "__main__":
     main()
 

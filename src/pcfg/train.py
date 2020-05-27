@@ -1,6 +1,5 @@
 """Train the PCFG model"""
 
-import sys
 import re
 from preprocessing import extract_stats
 
@@ -9,6 +8,7 @@ class Train:
 
     def __init__(self):
         """Initialize the dictionaries that store the stats of the training wordlist"""
+        
         # stats of bases
         # data structure: {<base>: <counter>}
         self.bases = {}
@@ -140,8 +140,31 @@ class Train:
             self.alphas[wordLen] = []
     
         self.alphas[wordLen].append(line)
-
     
+    def dump(self):
+        """Package all the fields that are essenial to guessing"""
+        dump = {}
+        dump['digits'] = self.digits
+        dump['bases'] = self.bases
+        dump['symbols'] = self.symbols
+        dump['alphas'] = self.alphas
+        dump['digitStats'] = self.digitStats
+        dump['symbolStats'] = self.symbolStats
+        dump['dictStats'] = self.dictStats
+ 
+        return dump
+    
+
+    def copy(self, dump):
+        self.digits = dump['digits'] 
+        self.bases = dump['bases'] 
+        self.symbols = dump['symbols']  
+        self.alphas = dump['alphas'] 
+        self.digitStats = dump['digitStats'] 
+        self.symbolStats = dump['symbolStats'] 
+        self.dictStats = dump['dictStats']
+        
+
     def printBases(self):
         """Stats of bases, in decreasing order"""
         print ("{:<12} {:<15}".format('Base','Probability'))
@@ -183,39 +206,8 @@ class Train:
 
 
 def main():
-
     print ("Please refer to README for usage and examples")
-     # read in the name of the wordlist 
-    try:
-        wordlist = sys.argv[1]
-    except IndexError:
-        raise SystemExit(f"Usage: {sys.argv[0]} <wordlist> <dictionary>")
-
-    # process each line in the input wordlist
-    try:
-        train = Train()
-        with open(wordlist, encoding='utf-8', errors='ignore') as wordList:
-            for line in wordList:
-                train.pw_stats(line)
-    except FileNotFoundError:
-        print (f"The file {wordlist} does not exist")
-
-    # read in the name of the dictionary  
-    try:
-        dictionary = sys.argv[2]
-    except IndexError:
-        raise SystemExit(f"Usage: {sys.argv[0]} <wordlist> <dictionary>")
-
-    # process each line in the input dictionary 
-    try:
-        with open(dictionary, encoding='utf-8', errors='ignore') as dictIonary:
-            for line in dictIonary:
-                train.dict_stats(line.rstrip('\n'))
-    except FileNotFoundError:
-        print (f"The file {dictionary} does not exist")
-    
-    train.printDigits()
-    
+     
 
 if __name__ == "__main__":
     main()
