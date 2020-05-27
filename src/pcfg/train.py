@@ -140,30 +140,7 @@ class Train:
             self.alphas[wordLen] = []
     
         self.alphas[wordLen].append(line)
-    
-    def dump(self):
-        """Package all the fields that are essenial to guessing"""
-        dump = {}
-        dump['digits'] = self.digits
-        dump['bases'] = self.bases
-        dump['symbols'] = self.symbols
-        dump['alphas'] = self.alphas
-        dump['digitStats'] = self.digitStats
-        dump['symbolStats'] = self.symbolStats
-        dump['dictStats'] = self.dictStats
- 
-        return dump
-    
 
-    def copy(self, dump):
-        self.digits = dump['digits'] 
-        self.bases = dump['bases'] 
-        self.symbols = dump['symbols']  
-        self.alphas = dump['alphas'] 
-        self.digitStats = dump['digitStats'] 
-        self.symbolStats = dump['symbolStats'] 
-        self.dictStats = dump['dictStats']
-        
 
     def printBases(self):
         """Stats of bases, in decreasing order"""

@@ -43,11 +43,10 @@ def pcfgTrain(ts, dictionary, mode, save):
 
     # save the trained model 
     if save: 
-        dump = model.dump()
         # write to the file
         try:
             with open(save, 'wb') as s:
-               pickle.dump(dump, s)
+               pickle.dump(model, s)
         except FileNotFoundError:
             print (f"The file {s} is not writeable", file=sys.stderr)
 
@@ -101,14 +100,11 @@ def main():
 
     # load the trained model
     if args.load:
-        model = Train()
         try:
             with open(args.load, 'rb') as m:
-                dump = pickle.load(m)
+                model = pickle.load(m)
         except FileNotFoundError:
             print (f"The file {args.load} does not exist", file=sys.stderr)
-        
-        model.copy(dump)
 
     else:
         # train the model
