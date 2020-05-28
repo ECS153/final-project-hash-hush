@@ -91,7 +91,7 @@ def main():
 
     # Parsing the arguments and options 
     parser = argparse.ArgumentParser(description="PCFG: Pretty Cool Fuzzy Guesser")
-    group = parser.add_mutually_exclusive_group()
+    group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument("-d", "--data",nargs="+", help="Use the input wordlist and dictionary to train the PCFG model")
     group.add_argument("-l", "--load", help="Load the trained model from a file", type=str)
     parser.add_argument("-m", "--mode", help="Specify the training mode, 1=terminal order, 2=preterminal order", type=int, choices=[1, 2], default=1)
@@ -105,11 +105,6 @@ def main():
         print ("-s/--save and -l/--load are mutually exclusive", file=sys.stderr)
         sys.exit(1)
 
-    # training data should contain two files: training wordlist and dictionary
-    if len(args.data) != 2:
-        print ("-d/--data should be followed by two files", file=sys.stderr)
-        sys.exit(1)
-
     # load the trained model
     if args.load:
         try:
@@ -119,6 +114,10 @@ def main():
             print (f"The file {args.load} does not exist", file=sys.stderr)
 
     else:
+        # training data should contain two files: training wordlist and dictionary
+        if len(args.data) != 2:
+            print ("-d/--data should be followed by two files", file=sys.stderr)
+            sys.exit(1)
         # train the model
         model = pcfgTrain(args.data[0], args.data[1], args.mode, args.save)
 
