@@ -1,5 +1,7 @@
-# Basic Usage: python pcfg.py <wordlist> <dict>
+# Basic Usage: python pcfg.py 
 # Options: 
+# <Training Data>: -d <wordlist> <dict>
+#       
 # <Tranining Mode>: -m <num>
 #       1: terminal probability order (default)
 #       2: pre-terminal probability order
@@ -9,6 +11,8 @@
 #   - save the training result to a file 
 # <Load Traning>: -l <file>
 #   - load the training result from a file and generate guesses based on the loaded model
+#   - mutually exclusive with '-d'
+#   - mutually exclusive with '-s'
 
 
 import sys
@@ -88,15 +92,23 @@ def main():
     # Parsing the arguments and options 
     parser = argparse.ArgumentParser(description="PCFG: Pretty Cool Fuzzy Guesser")
     group = parser.add_mutually_exclusive_group()
-    parser.add_argument("trainingSet", help="Use this wordlist to train the PCFG model")
-    parser.add_argument("dictionary", help="Use this dictionary to train the PCFG model and generate guesses")
+    group.add_argument("-d", "--data",nargs="+", help="Use the input wordlist and dictionary to train the PCFG model")
+    group.add_argument("-l", "--load", help="Load the trained model from a file", type=str)
     parser.add_argument("-m", "--mode", help="Specify the training mode, 1=terminal order, 2=preterminal order", type=int, choices=[1, 2], default=1)
     parser.add_argument("-b", "--budget", help="Specify the guessing budget", type=int, default=10000)
-    # save and load 
-    group.add_argument("-s", "--save", help="Train the model and save the trained model to a file", type=str)
-    group.add_argument('-l', "--load", help="Load the trained model from a file", type=str)
+    parser.add_argument("-s", "--save", help="Train the model and save the trained model to a file", type=str)
 
     args = parser.parse_args()
+
+    # -l and -s are mutually exclusive
+    if args.save and args.load:
+        print ("-s/--save and -l/--load are mutually exclusive", file=sys.stderr)
+        sys.exit(1)
+
+    # training data should contain two files: training wordlist and dictionary
+    if len(args.data) != 2:
+        print ("-d/--data should be followed by two files", file=sys.stderr)
+        sys.exit(1)
 
     # load the trained model
     if args.load:
@@ -108,7 +120,7 @@ def main():
 
     else:
         # train the model
-        model = pcfgTrain(args.trainingSet, args.dictionary, args.mode, args.save)
+        model = pcfgTrain(args.data[0], args.data[1], args.mode, args.save)
 
     # generate guesses
     pcfgGuess(args.budget, model)
