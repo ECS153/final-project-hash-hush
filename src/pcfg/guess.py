@@ -45,23 +45,21 @@ def findAlphas(base):
     return alphas
 
 
-# tResult: the result of training
-# finished: flag to indicate if the guesser has finished guessing 
+# finished guessing cases:  
 #       1: deplete the guessing budget 
 #       2: has tried all guesses
+
+# tResult: the result of training
 # guessingNumber: keep track of how many guesses has been generated
 # pq: the priority queue that holds the pre-terminal structs
-# budget: guessing budget
 
 class GuessGen:
     """Generate guesses"""
-    def __init__(self, tResult, budget):
+    def __init__(self, tResult):
         self.tResult = tResult
-        self.finished = False
         self.guessingNumber = 0
         self.pq = PriorityQueue()
-        self.budget = budget
-
+       
 
     def pqInit(self):
         """Initialize the priority Queue"""
@@ -135,9 +133,10 @@ class GuessGen:
         """Pop the highest probable pre-terminal struct from the queue and Insert its children"""
         # if the pq is empty: the guesser has exhausted all possible guesses
         if self.pq.empty():
-            self.finished = True
             print("Info: the guesser has exhausted all possible gussess", file=sys.stderr)
             sys.exit(0)
+
+        # print (f"Before Pop and Insert: {self.pq.qsize()} qObjects in the queue", file=sys.stderr)
 
         qObject = self.pq.get()
         pv = qObject[2]
@@ -178,6 +177,8 @@ class GuessGen:
                 newQObject[3] = newQObject[3][0: index[0]] + new[0] + newQObject[3][index[0] + varLength: ]
                 # push the new queue object into the queue 
                 self.pq.put(newQObject)
+
+        # print (f"After Pop and Insert: {self.pq.qsize()} qObjects in the queue", file=sys.stderr)
         
         return (alphaIndex, qObject[3])
     
@@ -198,6 +199,8 @@ class GuessGen:
                 varLength = int(index[1]) # len of the replacement string: 'L23' = 23
                 replacements.append(self.tResult.alphas[varLength])
                 numGuesses *= self.tResult.dictStats[varLength]
+            
+           # print (f"{numGuesses} guesses gnerated by {pt}", file=sys.stderr)
 
             # generate the combinations (list of tuples)
             replacements = list(itertools.product(*replacements))
@@ -210,9 +213,6 @@ class GuessGen:
                 print(pt)
 
         self.guessingNumber += numGuesses
-
-        if self.guessingNumber >= self.budget: 
-            self.finished = True
 
 
 def main():
